@@ -29,6 +29,11 @@ interface IncomingServerSettingsContract {
         val imapPrefix: StringInputField = StringInputField(),
         val imapUseCompression: Boolean = true,
         val imapSendClientInfo: Boolean = true,
+        val imapClientIdPresetKey: String = "",
+        val imapClientIdCustomName: StringInputField = StringInputField(),
+        val imapClientIdCustomVersion: StringInputField = StringInputField(),
+        val imapClientIdOauthClientId: StringInputField = StringInputField(),
+        val imapClientIdOauthRedirectUri: StringInputField = StringInputField(),
     )
 
     sealed interface Event {
@@ -44,6 +49,11 @@ interface IncomingServerSettingsContract {
         data class ImapPrefixChanged(val imapPrefix: String) : Event
         data class ImapUseCompressionChanged(val useCompression: Boolean) : Event
         data class ImapSendClientInfoChanged(val sendClientInfo: Boolean) : Event
+        data class ImapClientIdPresetChanged(val presetKey: String) : Event
+        data class ImapClientIdCustomNameChanged(val name: String) : Event
+        data class ImapClientIdCustomVersionChanged(val version: String) : Event
+        data class ImapClientIdOauthClientIdChanged(val clientId: String) : Event
+        data class ImapClientIdOauthRedirectUriChanged(val redirectUri: String) : Event
 
         data object LoadAccountState : Event
 

@@ -23,6 +23,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.aol.com",
             "smtp.aol.com",
         ) to OAuthConfiguration(
+            issuer = "login.aol.com",
             clientId = "dj0yJmk9dUNqYXZhYWxOYkdRJmQ9WVdrOU1YQnZVRFZoY1ZrbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWIw",
             scopes = listOf("mail-w"),
             authorizationEndpoint = "https://api.login.aol.com/oauth2/request_auth",
@@ -36,6 +37,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.fastmail.com",
             "smtp.fastmail.com",
         ) to OAuthConfiguration(
+            issuer = "www.fastmail.com",
             clientId = "353641ae",
             scopes = listOf("https://www.fastmail.com/dev/protocol-imap", "https://www.fastmail.com/dev/protocol-smtp"),
             authorizationEndpoint = "https://api.fastmail.com/oauth/authorize",
@@ -51,6 +53,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.gmail.com",
             "smtp.googlemail.com",
         ) to OAuthConfiguration(
+            issuer = "accounts.google.com",
             clientId = "262622259280-hhmh92rhklkg2k1tjil69epo0o9a12jm.apps.googleusercontent.com",
             scopes = listOf("https://mail.google.com/"),
             authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
@@ -65,6 +68,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.office365.com",
             "smtp-mail.outlook.com",
         ) to OAuthConfiguration(
+            issuer = "login.microsoftonline.com",
             clientId = "e647013a-ada4-4114-b419-e43d250f99c5",
             scopes = listOf(
                 "profile",
@@ -85,6 +89,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.mail.yahoo.com",
             "smtp.mail.yahoo.com",
         ) to OAuthConfiguration(
+            issuer = "login.yahoo.com",
             clientId = "dj0yJmk9aHNUb3d2MW5TQnpRJmQ9WVdrOWVYbHpaRWM0YkdnbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWIz",
             scopes = listOf("mail-w"),
             authorizationEndpoint = "https://api.login.yahoo.com/oauth2/request_auth",
@@ -98,6 +103,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
             "mail.tb.pro",
             "mail.thundermail.com",
         ) to OAuthConfiguration(
+            issuer = "auth.tb.pro",
             clientId = "mobile-android-k9mail",
             scopes = listOf("openid", "profile", "email", "offline_access"),
             authorizationEndpoint = "https://auth.tb.pro/realms/tbpro/protocol/openid-connect/auth",
@@ -109,6 +115,7 @@ class K9OAuthConfigurationFactory : OAuthConfigurationFactory {
         listOf(
             "mail.stage-thundermail.com",
         ) to OAuthConfiguration(
+            issuer = "auth-stage.tb.pro",
             clientId = "mobile-android-k9mail",
             scopes = listOf("openid", "profile", "email", "offline_access"),
             authorizationEndpoint = "https://auth-stage.tb.pro/realms/tbpro/protocol/openid-connect/auth",

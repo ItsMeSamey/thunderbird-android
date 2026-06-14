@@ -11,13 +11,15 @@ android {
     namespace = "net.thunderbird.android"
 
     defaultConfig {
-        applicationId = "net.thunderbird.android"
-        testApplicationId = "net.thunderbird.android.tests"
+        applicationId = "itsmesamey.thunderbird.android"
+        testApplicationId = "itsmesamey.thunderbird.android.tests"
+        manifestPlaceholders["oauthRedirectScheme"] = "net.thunderbird.android"
 
         versionCode = 4
         versionName = "21.0"
 
         buildConfigField("String", "CLIENT_INFO_APP_NAME", "\"Thunderbird for Android\"")
+        buildConfigField("String", "OAUTH_REDIRECT_SCHEME", "\"net.thunderbird.android\"")
     }
 
     androidResources {
@@ -110,6 +112,7 @@ android {
             signingConfig = signingConfigs.getByType(SigningType.TB_BETA)
 
             applicationIdSuffix = ".beta"
+            manifestPlaceholders["oauthRedirectScheme"] = "net.thunderbird.android.beta"
             versionNameSuffix = "b0"
 
             isMinifyEnabled = !isCI
@@ -124,6 +127,7 @@ android {
             )
 
             buildConfigField("String", "GLEAN_RELEASE_CHANNEL", "\"beta\"")
+            buildConfigField("String", "OAUTH_REDIRECT_SCHEME", "\"net.thunderbird.android.beta\"")
         }
 
         create("daily") {
@@ -132,6 +136,7 @@ android {
             signingConfig = signingConfigs.getByType(SigningType.TB_DAILY)
 
             applicationIdSuffix = ".daily"
+            manifestPlaceholders["oauthRedirectScheme"] = "net.thunderbird.android.daily"
             versionNameSuffix = "a1"
 
             isMinifyEnabled = !isCI
@@ -147,10 +152,12 @@ android {
 
             // See https://bugzilla.mozilla.org/show_bug.cgi?id=1918151
             buildConfigField("String", "GLEAN_RELEASE_CHANNEL", "\"nightly\"")
+            buildConfigField("String", "OAUTH_REDIRECT_SCHEME", "\"net.thunderbird.android.daily\"")
         }
 
         debug {
             applicationIdSuffix = ".debug"
+            manifestPlaceholders["oauthRedirectScheme"] = "net.thunderbird.android.debug"
             versionNameSuffix = "-SNAPSHOT"
 
             enableUnitTestCoverage = testCoverageEnabled
@@ -161,6 +168,7 @@ android {
             isDebuggable = true
 
             buildConfigField("String", "GLEAN_RELEASE_CHANNEL", "null")
+            buildConfigField("String", "OAUTH_REDIRECT_SCHEME", "\"net.thunderbird.android.debug\"")
         }
     }
 

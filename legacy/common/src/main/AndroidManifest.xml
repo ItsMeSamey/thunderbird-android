@@ -312,6 +312,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="${applicationId}" />
+                <data android:scheme="${oauthRedirectScheme}" />
             </intent-filter>
 
             <!-- Microsoft uses a special redirect URI format for Android apps -->
@@ -323,7 +324,20 @@
 
                 <data
                     android:scheme="msauth"
-                    android:host="${applicationId}"
+                    android:host="${oauthRedirectScheme}"
+                    />
+            </intent-filter>
+
+            <!-- Localhost redirect for desktop OAuth client spoofing -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="http"
+                    android:host="localhost"
                     />
             </intent-filter>
         </activity>

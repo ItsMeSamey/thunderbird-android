@@ -9,6 +9,8 @@ import net.thunderbird.core.preference.DefaultPreferenceChangeBroker
 import net.thunderbird.core.preference.GeneralSettingsManager
 import net.thunderbird.core.preference.PreferenceChangeBroker
 import net.thunderbird.core.preference.PreferenceChangePublisher
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
+import net.thunderbird.core.preference.clientid.DefaultClientIdPreferenceManager
 import net.thunderbird.core.preference.debugging.DebuggingSettingsPreferenceManager
 import net.thunderbird.core.preference.debugging.DefaultDebuggingSettingsPreferenceManager
 import net.thunderbird.core.preference.display.DefaultDisplaySettingsPreferenceManager
@@ -129,6 +131,12 @@ val preferencesModule = module {
             storagePersister = get(),
             storageEditor = get<Preferences>().createStorageEditor(),
             preferenceChangeBroker = get(),
+        )
+    }
+    single<ClientIdPreferenceManager> {
+        DefaultClientIdPreferenceManager(
+            storagePersister = get(),
+            storageEditor = get<Preferences>().createStorageEditor(),
         )
     }
     single<DebuggingSettingsPreferenceManager> {

@@ -70,6 +70,12 @@ private fun Project.readSigningProperties(signingType: SigningType, isUpload: Bo
         }
     } else {
         logger.warn("Signing properties file not found: $signingPropertiesFile")
+        val prefix = "${signingType.id}."
+        project.properties.forEach { (key, value) ->
+            if (key.startsWith(prefix) && value is String) {
+                setProperty(key, value)
+            }
+        }
     }
 }
 

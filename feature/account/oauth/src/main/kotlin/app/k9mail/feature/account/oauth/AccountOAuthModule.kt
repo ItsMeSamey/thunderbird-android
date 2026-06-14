@@ -38,6 +38,7 @@ val featureAccountOAuthModule: Module = module {
         GetOAuthRequestIntent(
             repository = get(),
             configurationProvider = get(),
+            clientIdPreferenceManager = get(),
         )
     }
 

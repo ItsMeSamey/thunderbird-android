@@ -6,6 +6,7 @@ import com.fsck.k9.backend.imap.SystemAlarmManager
 import com.fsck.k9.mail.oauth.OAuth2TokenProviderFactory
 import com.fsck.k9.mail.store.imap.IdleRefreshManager
 import net.thunderbird.backend.api.BackendFactory
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -30,6 +31,7 @@ val backendsModule = module {
             context = get(),
             clientInfoAppName = get(named("ClientInfoAppName")),
             clientInfoAppVersion = get(named("ClientInfoAppVersion")),
+            clientIdPreferenceManager = get(),
         )
     }
     single<SystemAlarmManager> { AndroidAlarmManager(context = get(), alarmManager = get()) }

@@ -13,6 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.fsck.k9"
         testApplicationId = "com.fsck.k9.tests"
+        manifestPlaceholders["oauthRedirectScheme"] = "com.fsck.k9"
 
         versionCode = 39004
         versionName = "21.0"
@@ -100,6 +101,7 @@ android {
 
         debug {
             applicationIdSuffix = ".debug"
+            manifestPlaceholders["oauthRedirectScheme"] = "com.fsck.k9.debug"
 
             enableUnitTestCoverage = testCoverageEnabled
             enableAndroidTestCoverage = testCoverageEnabled

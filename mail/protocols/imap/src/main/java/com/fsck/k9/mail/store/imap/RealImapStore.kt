@@ -8,6 +8,9 @@ import com.fsck.k9.mail.ServerSettings
 import com.fsck.k9.mail.oauth.OAuth2TokenProvider
 import com.fsck.k9.mail.ssl.TrustedSocketFactory
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.autoDetectNamespace
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdPresetKey
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomName
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomVersion
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isSendClientInfo
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isUseCompression
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.pathPrefix
@@ -320,7 +323,17 @@ internal open class RealImapStore(
 
         override val useCompression: Boolean = serverSettings.isUseCompression
 
-        override val clientInfo: ImapClientInfo? = config.clientInfo().takeIf { serverSettings.isSendClientInfo }
+        override val clientInfo: ImapClientInfo? = resolveClientInfo()
+
+        private fun resolveClientInfo(): ImapClientInfo? {
+            return resolveImapClientInfo(
+                isSendClientInfo = serverSettings.isSendClientInfo,
+                perAccountPresetKey = serverSettings.clientIdPresetKey,
+                perAccountCustomName = serverSettings.clientIdCustomName,
+                perAccountCustomVersion = serverSettings.clientIdCustomVersion,
+                defaultPresetKey = config.defaultClientIdPresetKey(),
+            )
+        }
 
         override var pathPrefix: String?
             get() = this@RealImapStore.pathPrefix
@@ -339,6 +352,36 @@ internal open class RealImapStore(
         }
     }
 }
+
+internal fun resolveImapClientInfo(
+    isSendClientInfo: Boolean,
+    perAccountPresetKey: String?,
+    perAccountCustomName: String?,
+    perAccountCustomVersion: String?,
+    defaultPresetKey: String?,
+): ImapClientInfo? {
+    if (!isSendClientInfo) return null
+    val presetKey = perAccountPresetKey ?: defaultPresetKey
+    if (presetKey == ClientIdPresets.CUSTOM_KEY) {
+        if (!perAccountCustomName.isNullOrBlank() && !perAccountCustomVersion.isNullOrBlank()) {
+            return ImapClientInfo(appName = perAccountCustomName, appVersion = perAccountCustomVersion)
+        }
+        return DESKTOP_CLIENT_INFO
+    }
+    if (presetKey != null) {
+        val preset = ClientIdPresets.fromKey(presetKey)
+        if (preset != null) {
+            return ImapClientInfo(appName = preset.appName, appVersion = preset.appVersion)
+        }
+        return DESKTOP_CLIENT_INFO
+    }
+    return DESKTOP_CLIENT_INFO
+}
+
+private val DESKTOP_CLIENT_INFO = ImapClientInfo(
+    appName = ClientIdPresets.THUNDERBIRD_DESKTOP.appName,
+    appVersion = ClientIdPresets.THUNDERBIRD_DESKTOP.appVersion,
+)
 
 private val ImapConnection.supportsListExtended: Boolean
     get() = hasCapability(Capabilities.SPECIAL_USE) && hasCapability(Capabilities.LIST_EXTENDED)

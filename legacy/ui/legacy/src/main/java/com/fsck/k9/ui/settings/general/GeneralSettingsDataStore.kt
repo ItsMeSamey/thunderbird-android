@@ -15,6 +15,7 @@ import net.thunderbird.core.preference.GeneralSettingsManager
 import net.thunderbird.core.preference.LockScreenNotificationVisibility
 import net.thunderbird.core.preference.SplitViewMode
 import net.thunderbird.core.preference.SubTheme
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
 import net.thunderbird.core.preference.display.visualSettings.message.list.MessageListDateTimeFormat
 import net.thunderbird.core.preference.display.visualSettings.message.list.UiDensity
 import net.thunderbird.core.preference.interaction.PostMarkAsUnreadNavigation
@@ -26,6 +27,7 @@ class GeneralSettingsDataStore(
     private val appLanguageManager: AppLanguageManager,
     private val generalSettingsManager: GeneralSettingsManager,
     private val telemetryManager: TelemetryManager,
+    private val clientIdPreferenceManager: ClientIdPreferenceManager,
 ) : PreferenceDataStore() {
 
     private var skipSaveSettings = false
@@ -179,6 +181,7 @@ class GeneralSettingsDataStore(
             "message_list_density" -> messageListSettings.uiDensity.toString()
             "post_remove_navigation" -> interactionSettings.messageViewPostRemoveNavigation
             "post_mark_as_unread_navigation" -> interactionSettings.messageViewPostMarkAsUnreadNavigation.name
+            "client_id_preset_key" -> clientIdPreferenceManager.getConfig().presetKey
             else -> defValue
         }
     }
@@ -222,6 +225,12 @@ class GeneralSettingsDataStore(
             "message_list_density" -> updateMessageListDensity(value)
             "post_remove_navigation" -> setMessageViewPostRemoveNavigation(value)
             "post_mark_as_unread_navigation" -> setMessageViewPostMarkAsUnreadNavigation(value)
+            "client_id_preset_key" -> {
+                val current = clientIdPreferenceManager.getConfig()
+                clientIdPreferenceManager.save(current.copy(presetKey = value))
+                return
+            }
+
             else -> return
         }
 

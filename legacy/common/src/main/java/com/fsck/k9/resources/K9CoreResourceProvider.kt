@@ -4,10 +4,14 @@ import android.content.Context
 import com.fsck.k9.CoreResourceProvider
 import com.fsck.k9.notification.PushNotificationState
 import com.fsck.k9.ui.R
+import net.thunderbird.core.preference.clientid.ClientIdPreference
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
+import org.koin.java.KoinJavaComponent.inject
 
 class K9CoreResourceProvider(
     private val context: Context,
 ) : CoreResourceProvider {
+    private val clientIdPreferenceManager: ClientIdPreferenceManager by inject(ClientIdPreferenceManager::class.java)
     override fun defaultIdentityDescription(): String = context.getString(R.string.default_identity_description)
 
     override fun contactDisplayNamePrefix(): String = context.getString(R.string.message_to_label)
@@ -23,7 +27,14 @@ class K9CoreResourceProvider(
 
     override fun noSubject(): String = context.getString(R.string.general_no_subject)
 
-    override fun userAgent(): String = context.getString(R.string.message_header_mua)
+    override fun userAgent(): String {
+        val clientIdPreference = clientIdPreferenceManager.getConfig()
+        return when (clientIdPreference.presetKey) {
+            ClientIdPreference.THUNDERBIRD_MOBILE_KEY -> context.getString(R.string.message_header_mua)
+            ClientIdPreference.THUNDERBIRD_DESKTOP_KEY -> "Thunderbird"
+            else -> context.getString(R.string.message_header_mua)
+        }
+    }
 
     override fun replyHeader(sender: String): String =
         context.getString(R.string.message_compose_reply_header_fmt, sender)

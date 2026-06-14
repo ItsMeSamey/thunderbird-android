@@ -896,6 +896,26 @@ class RealImapConnectionTest {
     }
 
     @Test
+    fun `open() with Desktop client info should send ID command with Thunderbird and 128_0`() {
+        val server = MockImapServer().apply {
+            simplePreAuthAndLoginDialog(postAuthCapabilities = "ID")
+            expect("""3 ID ("name" "Thunderbird" "version" "128.0")""")
+            output("""* ID ("name" "CustomImapServer" "vendor" "Company, Inc." "version" "0.1")""")
+            output("3 OK ID completed")
+            simplePostAuthenticationDialog(tag = 4)
+        }
+        val imapConnection = startServerAndCreateImapConnection(
+            server,
+            clientInfo = ImapClientInfo(appName = "Thunderbird", appVersion = "128.0"),
+        )
+
+        imapConnection.open()
+
+        server.verifyConnectionStillOpen()
+        server.verifyInteractionCompleted()
+    }
+
+    @Test
     fun `open() with ID capability and clientInfoAppName should send ID command`() {
         val server = MockImapServer().apply {
             simplePreAuthAndLoginDialog(postAuthCapabilities = "ID")

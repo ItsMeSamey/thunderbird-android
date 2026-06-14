@@ -1,6 +1,7 @@
 package net.thunderbird.core.common.oauth
 
 data class OAuthConfiguration(
+    val issuer: String,
     val clientId: String,
     val scopes: List<String>,
     val authorizationEndpoint: String,

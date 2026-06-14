@@ -15,6 +15,9 @@ import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.
 import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.Event
 import app.k9mail.feature.account.server.validation.ui.ServerValidationContract.State
 import com.fsck.k9.mail.server.ServerSettingsValidationResult
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthClientId
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthRedirectUri
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdPresetKey
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -77,7 +80,8 @@ abstract class BaseServerValidationViewModel(
     }
 
     private fun startOAuthSignIn() {
-        val hostname = state.value.serverSettings?.host
+        val serverSettings = state.value.serverSettings
+        val hostname = serverSettings?.host
         val emailAddress = state.value.emailAddress
 
         if (hostname == null || emailAddress == null) {
@@ -94,6 +98,9 @@ abstract class BaseServerValidationViewModel(
                 AccountOAuthContract.State(
                     hostname = hostname,
                     emailAddress = emailAddress,
+                    perAccountPresetKey = serverSettings.clientIdPresetKey ?: "",
+                    customOauthClientId = serverSettings.clientIdOauthClientId,
+                    customOauthRedirectUri = serverSettings.clientIdOauthRedirectUri,
                 ),
             )
         }

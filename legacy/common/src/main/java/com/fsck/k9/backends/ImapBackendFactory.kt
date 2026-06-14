@@ -21,6 +21,8 @@ import net.thunderbird.backend.api.BackendStorageFactory
 import net.thunderbird.core.android.account.Expunge
 import net.thunderbird.core.android.account.LegacyAccount
 import net.thunderbird.core.android.account.LegacyAccountManager
+import net.thunderbird.core.preference.clientid.ClientIdPreference
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
 import net.thunderbird.feature.account.AccountId
 
 interface ImapBackendFactory : BackendFactory
@@ -35,6 +37,7 @@ class DefaultImapBackendFactory(
     private val context: Context,
     private val clientInfoAppName: String,
     private val clientInfoAppVersion: String,
+    private val clientIdPreferenceManager: ClientIdPreferenceManager,
 ) : ImapBackendFactory {
     override fun createBackend(accountId: AccountId): Backend {
         val account = accountManager.getAccount(accountId.toString()) ?: error("Account not found: $accountId")
@@ -75,6 +78,7 @@ class DefaultImapBackendFactory(
     }
 
     private fun createImapStoreConfig(account: LegacyAccount): ImapStoreConfig {
+        val clientIdPreference = clientIdPreferenceManager.getConfig()
         return object : ImapStoreConfig {
             override val logLabel
                 get() = account.uuid
@@ -84,6 +88,12 @@ class DefaultImapBackendFactory(
             override fun isExpungeImmediately() = account.expungePolicy == Expunge.EXPUNGE_IMMEDIATELY
 
             override fun clientInfo() = ImapClientInfo(appName = clientInfoAppName, appVersion = clientInfoAppVersion)
+
+            override fun defaultClientIdPresetKey(): String? = when (clientIdPreference.presetKey) {
+                ClientIdPreference.THUNDERBIRD_MOBILE_KEY -> ClientIdPreference.THUNDERBIRD_MOBILE_KEY
+                ClientIdPreference.THUNDERBIRD_DESKTOP_KEY -> ClientIdPreference.THUNDERBIRD_DESKTOP_KEY
+                else -> null
+            }
         }
     }
 

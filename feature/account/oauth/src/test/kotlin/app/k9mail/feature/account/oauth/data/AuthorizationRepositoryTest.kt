@@ -234,6 +234,7 @@ class AuthorizationRepositoryTest {
 
     private companion object {
         val oAuthConfiguration = OAuthConfiguration(
+            issuer = "test.issuer",
             clientId = "clientId",
             scopes = listOf("scope", "scope2"),
             authorizationEndpoint = "auth.example.com",

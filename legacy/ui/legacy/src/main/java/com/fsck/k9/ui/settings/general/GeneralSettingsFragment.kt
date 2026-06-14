@@ -9,6 +9,8 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceScreen
@@ -120,6 +122,7 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
         }
 
         initializeDataCollection()
+        initializeClientIdentitySettings()
 
         viewModel.uiState.observe(this) { uiState ->
             updateUiState(uiState)
@@ -179,6 +182,9 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
+    private fun initializeClientIdentitySettings() {
+    }
+
     private fun updateUiState(uiState: GeneralSettingsUiState) {
         val oldUiState = currentUiState
         currentUiState = uiState
@@ -228,6 +234,7 @@ class GeneralSettingsFragment : PreferenceFragmentCompat() {
     companion object {
         private const val PREFERENCE_SCREEN_DEBUGGING = "debug_preferences"
         private const val PREFERENCE_DATA_COLLECTION = "data_collection"
+        private const val PREFERENCE_CLIENT_ID_PRESET_KEY = "client_id_preset_key"
         const val DEFAULT_SYNC_FILENAME = "thunderbird-sync-logs"
 
         fun create(rootKey: String? = null) = GeneralSettingsFragment().withArguments(ARG_PREFERENCE_ROOT to rootKey)

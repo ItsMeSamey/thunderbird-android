@@ -20,6 +20,9 @@ interface AccountOAuthContract {
         val isGoogleSignIn: Boolean = false,
         val error: Error? = null,
         val isLoading: Boolean = false,
+        val perAccountPresetKey: String = "",
+        val customOauthClientId: String? = null,
+        val customOauthRedirectUri: String? = null,
     )
 
     sealed interface Event {

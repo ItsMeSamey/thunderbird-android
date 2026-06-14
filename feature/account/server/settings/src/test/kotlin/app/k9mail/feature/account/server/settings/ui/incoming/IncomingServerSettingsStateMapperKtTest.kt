@@ -11,6 +11,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.fsck.k9.mail.AuthType
 import com.fsck.k9.mail.ServerSettings
+import com.fsck.k9.mail.store.imap.ClientIdPresets
 import com.fsck.k9.mail.store.imap.ImapStoreSettings
 import net.thunderbird.core.validation.input.NumberInputField
 import net.thunderbird.core.validation.input.StringInputField
@@ -55,6 +56,8 @@ class IncomingServerSettingsStateMapperKtTest {
             username = StringInputField(value = " user "),
             password = StringInputField(value = " password "),
             imapPrefix = StringInputField(value = " prefix "),
+            imapClientIdCustomName = StringInputField(value = " CustomName "),
+            imapClientIdCustomVersion = StringInputField(value = " 99.0 "),
         )
 
         val result = incomingState.toServerSettings()
@@ -100,6 +103,9 @@ class IncomingServerSettingsStateMapperKtTest {
             imapPrefix = StringInputField(value = "prefix"),
             imapUseCompression = true,
             imapSendClientInfo = true,
+            imapClientIdPresetKey = ClientIdPresets.CUSTOM_KEY,
+            imapClientIdCustomName = StringInputField(value = "CustomName"),
+            imapClientIdCustomVersion = StringInputField(value = "99.0"),
         )
 
         private val IMAP_SERVER_SETTINGS = ServerSettings(
@@ -116,6 +122,9 @@ class IncomingServerSettingsStateMapperKtTest {
                 pathPrefix = "prefix",
                 useCompression = true,
                 sendClientInfo = true,
+                clientIdPresetKey = ClientIdPresets.CUSTOM_KEY,
+                clientIdCustomName = "CustomName",
+                clientIdCustomVersion = "99.0",
             ),
         )
 

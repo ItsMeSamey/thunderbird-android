@@ -98,6 +98,7 @@ class IncomingServerSettingsViewModelTest {
                     imapPrefix = StringInputField(value = ""),
                     imapUseCompression = true,
                     imapSendClientInfo = true,
+                    imapClientIdPresetKey = "",
                 ),
             )
         }
@@ -287,6 +288,8 @@ class IncomingServerSettingsViewModelTest {
                         pathPrefix = null,
                         useCompression = true,
                         sendClientInfo = true,
+                        clientIdPresetKey = null,
+
                     ),
                 ),
             ),
@@ -298,6 +301,39 @@ class IncomingServerSettingsViewModelTest {
         ) {
             isEqualTo(Effect.NavigateNext)
         }
+    }
+
+    @Test
+    fun `should change state when ImapClientIdPresetChanged event is received`() = runMviTest {
+        val initialState = State()
+        eventStateTest(
+            viewModel = createTestSubject(initialState),
+            initialState = initialState,
+            event = Event.ImapClientIdPresetChanged("thunderbird_mobile"),
+            expectedState = State(imapClientIdPresetKey = "thunderbird_mobile"),
+        )
+    }
+
+    @Test
+    fun `should change state when ImapClientIdCustomNameChanged event is received`() = runMviTest {
+        val initialState = State()
+        eventStateTest(
+            viewModel = createTestSubject(initialState),
+            initialState = initialState,
+            event = Event.ImapClientIdCustomNameChanged("CustomName"),
+            expectedState = State(imapClientIdCustomName = StringInputField(value = "CustomName")),
+        )
+    }
+
+    @Test
+    fun `should change state when ImapClientIdCustomVersionChanged event is received`() = runMviTest {
+        val initialState = State()
+        eventStateTest(
+            viewModel = createTestSubject(initialState),
+            initialState = initialState,
+            event = Event.ImapClientIdCustomVersionChanged("99.0"),
+            expectedState = State(imapClientIdCustomVersion = StringInputField(value = "99.0")),
+        )
     }
 
     @Test
@@ -344,6 +380,8 @@ class IncomingServerSettingsViewModelTest {
                             pathPrefix = null,
                             useCompression = true,
                             sendClientInfo = true,
+                            clientIdPresetKey = null,
+
                         ),
                     ),
                 ),

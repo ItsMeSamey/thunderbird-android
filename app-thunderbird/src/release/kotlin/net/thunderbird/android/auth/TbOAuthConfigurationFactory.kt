@@ -23,11 +23,12 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.aol.com",
             "smtp.aol.com",
         ) to OAuthConfiguration(
+            issuer = "login.aol.com",
             clientId = "dj0yJmk9QTVYM0I0RGQ0VDFBJmQ9WVdrOVNYcFphVWRVYVhnbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PTA1",
             scopes = listOf("mail-w"),
             authorizationEndpoint = "https://api.login.aol.com/oauth2/request_auth",
             tokenEndpoint = "https://api.login.aol.com/oauth2/get_token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}://oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}://oauth2redirect",
         )
     }
 
@@ -36,11 +37,12 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.fastmail.com",
             "smtp.fastmail.com",
         ) to OAuthConfiguration(
+            issuer = "www.fastmail.com",
             clientId = "353e41ae",
             scopes = listOf("https://www.fastmail.com/dev/protocol-imap", "https://www.fastmail.com/dev/protocol-smtp"),
             authorizationEndpoint = "https://api.fastmail.com/oauth/authorize",
             tokenEndpoint = "https://api.fastmail.com/oauth/refresh",
-            redirectUri = "${BuildConfig.APPLICATION_ID}://oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}://oauth2redirect",
         )
     }
 
@@ -51,11 +53,12 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.gmail.com",
             "smtp.googlemail.com",
         ) to OAuthConfiguration(
+            issuer = "accounts.google.com",
             clientId = "560629489500-kta4qnt6vrf1bj8ljcohj7cvbbqguauf.apps.googleusercontent.com",
             scopes = listOf("https://mail.google.com/"),
             authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth",
             tokenEndpoint = "https://oauth2.googleapis.com/token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}:/oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}:/oauth2redirect",
         )
     }
 
@@ -65,6 +68,7 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "smtp.office365.com",
             "smtp-mail.outlook.com",
         ) to OAuthConfiguration(
+            issuer = "login.microsoftonline.com",
             clientId = "e6f8716e-299d-4ed9-bbf3-453f192f44e5",
             scopes = listOf(
                 "profile",
@@ -76,7 +80,7 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             ),
             authorizationEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
             tokenEndpoint = "https://login.microsoftonline.com/common/oauth2/v2.0/token",
-            redirectUri = "msauth://net.thunderbird.android/S9nqeF27sTJcEfaInpC%2BDHzHuCY%3D",
+            redirectUri = "msauth://${BuildConfig.OAUTH_REDIRECT_SCHEME}/S9nqeF27sTJcEfaInpC%2BDHzHuCY%3D",
         )
     }
 
@@ -85,11 +89,12 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "imap.mail.yahoo.com",
             "smtp.mail.yahoo.com",
         ) to OAuthConfiguration(
+            issuer = "login.yahoo.com",
             clientId = "dj0yJmk9SW1VbkV0R0FJYU1mJmQ9WVdrOU1Hc3dlSEp3YzNFbWNHbzlNQT09JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWNk",
             scopes = listOf("mail-w"),
             authorizationEndpoint = "https://api.login.yahoo.com/oauth2/request_auth",
             tokenEndpoint = "https://api.login.yahoo.com/oauth2/get_token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}://oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}://oauth2redirect",
         )
     }
 
@@ -98,21 +103,23 @@ class TbOAuthConfigurationFactory : OAuthConfigurationFactory {
             "mail.tb.pro",
             "mail.thundermail.com",
         ) to OAuthConfiguration(
+            issuer = "auth.tb.pro",
             clientId = "mobile-android-thunderbird",
             scopes = listOf("openid", "profile", "email", "offline_access"),
             authorizationEndpoint = "https://auth.tb.pro/realms/tbpro/protocol/openid-connect/auth",
             tokenEndpoint = "https://auth.tb.pro/realms/tbpro/protocol/openid-connect/token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}://oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}://oauth2redirect",
         )
 
     private fun createThundermailStageConfiguration(): Pair<List<String>, OAuthConfiguration> =
         listOf(
             "mail.stage-thundermail.com",
         ) to OAuthConfiguration(
+            issuer = "auth-stage.tb.pro",
             clientId = "mobile-android-thunderbird",
             scopes = listOf("openid", "profile", "email", "offline_access"),
             authorizationEndpoint = "https://auth-stage.tb.pro/realms/tbpro/protocol/openid-connect/auth",
             tokenEndpoint = "https://auth-stage.tb.pro/realms/tbpro/protocol/openid-connect/token",
-            redirectUri = "${BuildConfig.APPLICATION_ID}://oauth2redirect",
+            redirectUri = "${BuildConfig.OAUTH_REDIRECT_SCHEME}://oauth2redirect",
         )
 }

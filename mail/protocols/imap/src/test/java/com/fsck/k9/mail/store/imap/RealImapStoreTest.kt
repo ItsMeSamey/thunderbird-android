@@ -3,8 +3,10 @@ package com.fsck.k9.mail.store.imap
 import assertk.assertFailure
 import assertk.assertThat
 import assertk.assertions.containsExactly
+import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import assertk.assertions.isNotNull
+import assertk.assertions.isNull
 import assertk.assertions.isSameInstanceAs
 import com.fsck.k9.mail.AuthType
 import com.fsck.k9.mail.ConnectionSecurity
@@ -29,6 +31,160 @@ import org.mockito.kotlin.verify
 
 class RealImapStoreTest {
     private val imapStore = createTestImapStore()
+
+    @Test
+    fun `resolveImapClientInfo with sendClientInfo disabled should return null`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = false,
+            perAccountPresetKey = null,
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result).isNull()
+    }
+
+    @Test
+    fun `resolveImapClientInfo with no preset configured should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = null,
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result).isNotNull()
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with null perAccount and null default should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = null,
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with unknown preset key should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = "nonexistent_preset",
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with mobile preset should return Mobile values`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.THUNDERBIRD_MOBILE.key,
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird for Android")
+        assertThat(result.appVersion).isEqualTo("133.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with desktop preset should return Desktop values`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.THUNDERBIRD_DESKTOP.key,
+            defaultPresetKey = null,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with global default preset should use defaultPresetKey`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = null,
+            defaultPresetKey = ClientIdPresets.THUNDERBIRD_MOBILE.key,
+            perAccountCustomName = null,
+            perAccountCustomVersion = null,
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird for Android")
+        assertThat(result.appVersion).isEqualTo("133.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with CUSTOM_KEY and complete custom values should return custom identity`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.CUSTOM_KEY,
+            defaultPresetKey = null,
+            perAccountCustomName = "CustomName",
+            perAccountCustomVersion = "99.0",
+        )
+
+        assertThat(result!!.appName).isEqualTo("CustomName")
+        assertThat(result.appVersion).isEqualTo("99.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with CUSTOM_KEY and empty custom name should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.CUSTOM_KEY,
+            defaultPresetKey = null,
+            perAccountCustomName = "",
+            perAccountCustomVersion = "99.0",
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with CUSTOM_KEY and empty custom version should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.CUSTOM_KEY,
+            defaultPresetKey = null,
+            perAccountCustomName = "CustomName",
+            perAccountCustomVersion = "",
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
+
+    @Test
+    fun `resolveImapClientInfo with CUSTOM_KEY and blank custom values should fall back to Desktop`() {
+        val result = resolveImapClientInfo(
+            isSendClientInfo = true,
+            perAccountPresetKey = ClientIdPresets.CUSTOM_KEY,
+            defaultPresetKey = null,
+            perAccountCustomName = "  ",
+            perAccountCustomVersion = "99.0",
+        )
+
+        assertThat(result!!.appName).isEqualTo("Thunderbird")
+        assertThat(result.appVersion).isEqualTo("128.0")
+    }
 
     @Test
     fun `checkSettings() should create ImapConnection and call open()`() {

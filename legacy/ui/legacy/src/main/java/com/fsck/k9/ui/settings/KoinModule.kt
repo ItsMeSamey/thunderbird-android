@@ -9,6 +9,7 @@ import com.fsck.k9.ui.settings.general.GeneralSettingsDataStore
 import com.fsck.k9.ui.settings.general.GeneralSettingsViewModel
 import java.util.concurrent.Executors
 import net.thunderbird.core.logging.file.FileLogSink
+import net.thunderbird.core.preference.clientid.ClientIdPreferenceManager
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -28,6 +29,7 @@ val settingsUiModule = module {
             appLanguageManager = get(),
             generalSettingsManager = get(),
             telemetryManager = get(),
+            clientIdPreferenceManager = get(),
         )
     }
     single(named("SaveSettingsExecutorService")) {

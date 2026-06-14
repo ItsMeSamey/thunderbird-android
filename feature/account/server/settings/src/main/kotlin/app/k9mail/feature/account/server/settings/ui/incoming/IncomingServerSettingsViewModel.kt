@@ -56,6 +56,24 @@ open class IncomingServerSettingsViewModel(
 
             is Event.ImapSendClientInfoChanged -> updateState { it.copy(imapSendClientInfo = event.sendClientInfo) }
 
+            is Event.ImapClientIdPresetChanged -> updateState { it.copy(imapClientIdPresetKey = event.presetKey) }
+
+            is Event.ImapClientIdCustomNameChanged -> updateState {
+                it.copy(imapClientIdCustomName = it.imapClientIdCustomName.updateValue(event.name))
+            }
+
+            is Event.ImapClientIdCustomVersionChanged -> updateState {
+                it.copy(imapClientIdCustomVersion = it.imapClientIdCustomVersion.updateValue(event.version))
+            }
+
+            is Event.ImapClientIdOauthClientIdChanged -> updateState {
+                it.copy(imapClientIdOauthClientId = it.imapClientIdOauthClientId.updateValue(event.clientId))
+            }
+
+            is Event.ImapClientIdOauthRedirectUriChanged -> updateState {
+                it.copy(imapClientIdOauthRedirectUri = it.imapClientIdOauthRedirectUri.updateValue(event.redirectUri))
+            }
+
             Event.OnNextClicked -> onNext()
 
             Event.OnBackClicked -> onBack()

@@ -11,8 +11,14 @@ import net.thunderbird.core.common.oauth.OAuthConfiguration
 interface AccountOAuthDomainContract {
 
     interface UseCase {
-        fun interface GetOAuthRequestIntent {
-            fun execute(hostname: String, emailAddress: String): AuthorizationIntentResult
+        interface GetOAuthRequestIntent {
+            fun execute(
+                hostname: String,
+                emailAddress: String,
+                perAccountPresetKey: String? = null,
+                customOauthClientId: String? = null,
+                customOauthRedirectUri: String? = null,
+            ): AuthorizationIntentResult
         }
 
         fun interface FinishOAuthSignIn {

@@ -26,6 +26,9 @@ import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
 import net.openid.appauth.AuthorizationService
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthClientId
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthRedirectUri
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdPresetKey
 import net.thunderbird.core.android.account.LegacyAccountDto
 import net.thunderbird.core.android.account.LegacyAccountDtoManager
 import net.thunderbird.core.logging.Logger
@@ -84,7 +87,14 @@ internal class AuthViewModel(
 
     private suspend fun startLogin(account: LegacyAccountDto) {
         val authRequestIntentResult = withContext(Dispatchers.IO) {
-            getOAuthRequestIntent.execute(account.incomingServerSettings.host, account.email)
+            val serverSettings = account.incomingServerSettings
+            getOAuthRequestIntent.execute(
+                hostname = serverSettings.host,
+                emailAddress = account.email,
+                perAccountPresetKey = serverSettings.clientIdPresetKey ?: "",
+                customOauthClientId = serverSettings.clientIdOauthClientId,
+                customOauthRedirectUri = serverSettings.clientIdOauthRedirectUri,
+            )
         }
 
         when (authRequestIntentResult) {

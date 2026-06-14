@@ -207,6 +207,7 @@ class GetAutoDiscoveryTest {
         )
 
         private val OAUTH_CONFIGURATION = OAuthConfiguration(
+            issuer = "test.issuer",
             clientId = "clientId",
             scopes = listOf("scopes"),
             authorizationEndpoint = "authorizationEndpoint",

@@ -166,7 +166,17 @@ class AccountOAuthViewModelTest {
     fun `should set error state when onOAuthResult received with BrowserNotAvailable`() = runMviTest {
         val initialState = defaultState
         val testSubject = createTestSubject(
-            getOAuthRequestIntent = { _, _ -> throw ActivityNotFoundException("browser not available") },
+            getOAuthRequestIntent = object : UseCase.GetOAuthRequestIntent {
+                override fun execute(
+                    hostname: String,
+                    emailAddress: String,
+                    perAccountPresetKey: String?,
+                    customOauthClientId: String?,
+                    customOauthRedirectUri: String?,
+                ): AuthorizationIntentResult {
+                    throw ActivityNotFoundException("browser not available")
+                }
+            },
             initialState = initialState,
         )
         val turbines = turbinesWithInitialStateCheck(testSubject, initialState)
@@ -253,7 +263,15 @@ class AccountOAuthViewModelTest {
             isGoogleSignIn: Boolean = false,
             initialState: State = State(),
         ) = createTestSubject(
-            getOAuthRequestIntent = { _, _ -> authorizationIntentResult },
+            getOAuthRequestIntent = object : UseCase.GetOAuthRequestIntent {
+                override fun execute(
+                    hostname: String,
+                    emailAddress: String,
+                    perAccountPresetKey: String?,
+                    customOauthClientId: String?,
+                    customOauthRedirectUri: String?,
+                ) = authorizationIntentResult
+            },
             authorizationResult = authorizationResult,
             isGoogleSignIn = isGoogleSignIn,
             initialState = initialState,

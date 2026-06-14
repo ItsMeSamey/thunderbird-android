@@ -9,8 +9,14 @@ import app.k9mail.feature.account.common.domain.entity.toMailConnectionSecurity
 import app.k9mail.feature.account.server.settings.ui.common.toInvalidEmailDomain
 import app.k9mail.feature.account.server.settings.ui.incoming.IncomingServerSettingsContract.State
 import com.fsck.k9.mail.ServerSettings
+import com.fsck.k9.mail.store.imap.ClientIdPresets
 import com.fsck.k9.mail.store.imap.ImapStoreSettings
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.autoDetectNamespace
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomName
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomVersion
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthClientId
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthRedirectUri
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdPresetKey
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isSendClientInfo
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isUseCompression
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.pathPrefix
@@ -37,6 +43,11 @@ private fun ServerSettings.toIncomingServerSettingsState(): State {
         imapPrefix = StringInputField(value = pathPrefix ?: ""),
         imapUseCompression = isUseCompression,
         imapSendClientInfo = isSendClientInfo,
+        imapClientIdPresetKey = clientIdPresetKey ?: "",
+        imapClientIdCustomName = StringInputField(value = clientIdCustomName ?: ""),
+        imapClientIdCustomVersion = StringInputField(value = clientIdCustomVersion ?: ""),
+        imapClientIdOauthClientId = StringInputField(value = clientIdOauthClientId ?: ""),
+        imapClientIdOauthRedirectUri = StringInputField(value = clientIdOauthRedirectUri ?: ""),
     )
 }
 
@@ -61,6 +72,11 @@ private fun State.createExtras(): Map<String, String?> {
             pathPrefix = if (imapAutodetectNamespaceEnabled) null else imapPrefix.value.trim(),
             useCompression = imapUseCompression,
             sendClientInfo = imapSendClientInfo,
+            clientIdPresetKey = imapClientIdPresetKey.takeIf { it.isNotEmpty() && it != ClientIdPresets.DEFAULT_KEY },
+            clientIdCustomName = imapClientIdCustomName.value.trim().takeIf { it.isNotEmpty() },
+            clientIdCustomVersion = imapClientIdCustomVersion.value.trim().takeIf { it.isNotEmpty() },
+            clientIdOauthClientId = imapClientIdOauthClientId.value.trim().takeIf { it.isNotEmpty() },
+            clientIdOauthRedirectUri = imapClientIdOauthRedirectUri.value.trim().takeIf { it.isNotEmpty() },
         )
     } else {
         emptyMap()

@@ -35,6 +35,11 @@ private fun ImapServerSettings.toImapServerSettings(password: String?): ServerSe
             pathPrefix = null,
             useCompression = true,
             sendClientInfo = true,
+            clientIdPresetKey = null,
+            clientIdCustomName = null,
+            clientIdCustomVersion = null,
+            clientIdOauthClientId = null,
+            clientIdOauthRedirectUri = null,
         ),
     )
 }

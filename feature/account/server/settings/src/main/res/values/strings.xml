@@ -26,6 +26,13 @@
     <string name="account_server_settings_incoming_imap_prefix_label">IMAP path prefix</string>
     <string name="account_server_settings_incoming_imap_compression_label">Use compression</string>
     <string name="account_server_settings_incoming_imap_send_client_info_label">Send client information</string>
+    <string name="account_server_settings_incoming_imap_client_id_label">Client ID</string>
+    <string name="account_server_settings_incoming_imap_client_id_default">Default (use global setting)</string>
+    <string name="account_server_settings_incoming_imap_client_id_custom">Custom</string>
+    <string name="account_server_settings_incoming_imap_client_id_custom_name">Custom client name</string>
+    <string name="account_server_settings_incoming_imap_client_id_custom_version">Custom client version</string>
+    <string name="account_server_settings_incoming_imap_client_id_oauth_client_id">Custom OAuth client ID</string>
+    <string name="account_server_settings_incoming_imap_client_id_oauth_redirect_uri">Custom OAuth redirect URI</string>
 
     <string name="account_server_settings_outgoing_top_bar_title">Outgoing server settings</string>
 

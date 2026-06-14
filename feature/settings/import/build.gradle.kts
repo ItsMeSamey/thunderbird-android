@@ -17,6 +17,7 @@ dependencies {
 
     implementation(projects.feature.migration.launcher.api)
     implementation(projects.feature.account.oauth)
+    implementation(projects.mail.protocols.imap)
     implementation(libs.appauth)
 
     implementation(libs.androidx.activity.compose)

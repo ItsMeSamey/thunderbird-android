@@ -49,6 +49,9 @@ class AccountOAuthViewModel(
             getOAuthRequestIntent.execute(
                 hostname = state.value.hostname,
                 emailAddress = state.value.emailAddress,
+                perAccountPresetKey = state.value.perAccountPresetKey,
+                customOauthClientId = state.value.customOauthClientId,
+                customOauthRedirectUri = state.value.customOauthRedirectUri,
             )
         } catch (e: ActivityNotFoundException) {
             logger.error(throwable = e) { "Failed to launch custom tabs. Browser is not available." }

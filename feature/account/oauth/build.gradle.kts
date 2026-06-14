@@ -15,10 +15,12 @@ android {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.preference.api)
     implementation(projects.core.ui.compose.common)
     implementation(projects.core.ui.compose.designsystem)
 
     implementation(projects.mail.common)
+    implementation(projects.mail.protocols.imap)
 
     implementation(projects.feature.account.common)
 

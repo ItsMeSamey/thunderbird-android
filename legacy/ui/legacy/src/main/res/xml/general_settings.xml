@@ -553,6 +553,15 @@
             android:title="@string/global_settings_privacy_hide_timezone"
             />
 
+        <ListPreference
+            android:dialogTitle="@string/global_settings_privacy_client_id_preset_title"
+            android:entries="@array/client_id_preset_entries"
+            android:entryValues="@array/client_id_preset_values"
+            android:key="client_id_preset_key"
+            app:useSimpleSummaryProvider="true"
+            android:title="@string/global_settings_privacy_client_id_preset_title"
+            />
+
     </PreferenceScreen>
 
     <PreferenceScreen

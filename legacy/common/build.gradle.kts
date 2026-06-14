@@ -12,6 +12,7 @@ dependencies {
 
     implementation(projects.core.featureflag)
     implementation(projects.core.logging.api)
+    implementation(projects.core.preference.api)
     implementation(projects.feature.launcher)
 
     implementation(projects.feature.account.setup)

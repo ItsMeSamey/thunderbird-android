@@ -12,6 +12,11 @@ import com.fsck.k9.account.DeletePolicyProvider
 import com.fsck.k9.controller.MessagingController
 import com.fsck.k9.mail.ServerSettings
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.autoDetectNamespace
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomName
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdCustomVersion
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthClientId
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdOauthRedirectUri
+import com.fsck.k9.mail.store.imap.ImapStoreSettings.clientIdPresetKey
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.createExtra
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isSendClientInfo
 import com.fsck.k9.mail.store.imap.ImapStoreSettings.isUseCompression
@@ -163,6 +168,13 @@ private fun LegacyAccountDto.setIncomingServerSettings(serverSettings: ServerSet
             extra = createExtra(
                 autoDetectNamespace = serverSettings.autoDetectNamespace,
                 pathPrefix = serverSettings.pathPrefix,
+                useCompression = serverSettings.isUseCompression,
+                sendClientInfo = serverSettings.isSendClientInfo,
+                clientIdPresetKey = serverSettings.clientIdPresetKey,
+                clientIdCustomName = serverSettings.clientIdCustomName,
+                clientIdCustomVersion = serverSettings.clientIdCustomVersion,
+                clientIdOauthClientId = serverSettings.clientIdOauthClientId,
+                clientIdOauthRedirectUri = serverSettings.clientIdOauthRedirectUri,
             ),
         )
     } else {

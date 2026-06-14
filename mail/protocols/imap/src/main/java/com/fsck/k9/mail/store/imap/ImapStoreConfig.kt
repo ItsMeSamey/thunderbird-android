@@ -5,4 +5,5 @@ interface ImapStoreConfig {
     fun isSubscribedFoldersOnly(): Boolean
     fun isExpungeImmediately(): Boolean
     fun clientInfo(): ImapClientInfo
+    fun defaultClientIdPresetKey(): String? = null
 }
